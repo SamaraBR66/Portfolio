@@ -1,0 +1,221 @@
+#SUBQUERIES
+use sakila;
+select customer_id,first_name,last_name
+from customer
+where  customer_id = (select MAX(customer_id) 
+from customer);
+
+select actor_id,first_name,last_name
+from actor 
+where  actor_id = (select MAX(actor_id) 
+from actor);
+
+#W3schools
+SELECT productname
+FROM products
+where categoryid=
+(select categoryid 
+from categories 
+where categoryname = "Beverages");
+
+
+SELECT ProductName
+FROM [Products]
+WHERE supplierid = (
+select supplierid
+from suppliers
+where suppliername= "Tokyo Traders");
+
+#random example (not w3 schools)
+SELECT city_id, city
+FROM city
+WHERE country_id IN (
+select country_id
+from country
+where country IN ("Canada", "Mexico"));
+
+
+select city 
+from city 
+where country_id <> 
+(select country_id
+from country
+where country= "India");
+
+#W3 SCHOOL 
+SELECT productname, price
+FROM products p2
+WHERE price> (select AVG(price) from products where categoryid= p2.categoryid);
+
+SELECT productname, price
+FROM products p2
+WHERE price> (select AVG(price) from products where categoryid=1);
+
+#CORRELATED SUBQUERY 
+#The 2nd part needs to reffer back to the parent query 
+SELECT PRICE, PRODUCTNAME
+FROM PRODUCTS P2
+WHERE 
+(SELECT AVG(PRICE) 
+FROM PRODUCTS
+WHERE SUPPLIERID = P2.SUPPLIERID);
+
+
+
+#Correlated subquery:
+-- show the average price for supplier 1
+SELECT AVG(Price) FROM [Products] where supplierid =1
+-- show the prices for all products for supplier 1
+SELECT productname, Price FROM [Products] where supplierid =1
+-- pay attention to which products have a greater price than the average you determined in step 1. then do it again for supplier 2,3, etc.
+-- now run this to dynamically determine which products have a price greater than the average price for each given supplier.
+    SELECT ProductName, supplierid, Price
+    FROM products p2
+    where Price >
+			
+            (SELECT AVG(Price) FROM Products WHERE supplierid=p2.supplierid) ;
+            
+#Example 
+SELECT film_copy1.title, category.name, film_copy1.length
+FROM film film_copy1
+JOIN film_category fc_copy1
+ON film_copy1.film_id = fc_copy1.film_id
+JOIN category
+ON category.category_id = fc_copy1.category_id
+WHERE film_copy1.length =
+(SELECT min(length) 
+  FROM film film_copy2
+  JOIN film_category fc_copy2
+  ON film_copy2.film_id = fc_copy2.film_id
+  WHERE fc_copy2.category_id = fc_copy1.category_id);
+  
+  #Prep Material 
+  #SAMARA BECERRA
+  select payment_id,amount
+  from payment
+  where amount <
+  ALL (SELECT rental_rate FROM film);
+  
+  #SAMARA BECERRA
+  select title,rental_rate,rating
+  from film f1
+  where
+  rental_rate IN (select MAX(rental_rate)
+  FROM  film f2
+  where f2.rating = f1.rating
+  group by f2.rating)
+  
+order by rating,title;
+
+#SAMARA BECERRA
+#Example from YouTube
+
+use movies 
+select 
+YEAR(F.FilmReleaseDate)
+,f.FilmName
+,f.FilmRunTimeMinutes
+from 
+tblFilm AS f
+where 
+f.filmRunTimeMinutes >
+	(
+    select AVG(FilmRunTimeMinutes)
+    from tblFilm AS g
+    where g.FilmCountryID= f.FilmCountryID
+    );
+    
+#Construct a query against the film table that uses a filter condition with a non correlated subquery 
+#against the category table to find all action films (category.name = 'Action').
+
+SELECT *
+FROM film
+WHERE film_id IN (SELECT category_id
+                      FROM category
+                      WHERE name = 'Action');
+
+#Rework the query from Exercise 9-1 using a correlated subquery against the category and film_category 
+#tables to achieve the same results.
+SELECT *
+FROM category
+where category_id IN (select film_id
+						from film
+                        where name ='Action');
+                        
+SELECT *
+FROM film
+WHERE film_id IN (
+    SELECT film_id
+    FROM film_category
+    WHERE category_id = (
+        SELECT category_id
+        FROM category
+        WHERE name = 'Action'
+    )
+);
+
+#This join does the same as the subquery underneath 
+select title 
+from film f
+join film_category fc
+on f.film_id = fc.film_id
+where category_id ="1"; 
+
+select title 
+from film 
+where film_id IN
+	(select film_id
+    from film_category
+    where category_id = "1");
+
+#Same using  = ANY 
+select title 
+from film 
+where film_id = ANY
+	(select film_id
+    from film_category
+    where category_id = "1");
+
+#USING 'ALL', 'some,  in a subquery 
+select payment_id, amount
+from payment
+where amount <
+		any (select rental_rate from film);
+
+select MAX(rental_rate), title, rating
+from film 
+group by rating, title
+order by rating, title;
+
+
+#???? still dont understand 
+select title, rental_rate, rating
+from film f1
+where 
+	rental_rate IN (
+		select max(rental_rate)
+        from film f2
+        where f2.rating= f1.rating
+        group by rating)
+order by rating, title ;
+
+
+
+#example 
+
+
+SELECT PRICE, PRODUCTNAME
+FROM PRODUCTS P2
+WHERE 
+(SELECT AVG(PRICE) 
+FROM PRODUCTS
+WHERE SUPPLIERID = P2.SUPPLIERID);
+
+SELECT   fa.actor_id, fa.film_id
+FROM     film_actor fa
+WHERE    fa.actor_id IN
+           (SELECT actor_id FROM actor WHERE last_name = 'MONROE')
+AND      fa.film_id IN
+           (SELECT film_id FROM film WHERE rating = 'PG');
+      
+           

@@ -1,0 +1,361 @@
+
+#Transactions
+#disable autocommit mode via the following:
+
+#SET AUTOCOMMIT=0
+
+#Example: /* withdraw money from first account, making sure balance is sufficient */
+UPDATE account SET avail_balance = avail_balance - 500
+WHERE account_id = 9988
+  AND avail_balance > 500;
+#IF <exactly one row was updated by the previous statement> THEN
+  /* deposit money into second account */
+  UPDATE account SET avail_balance = avail_balance + 500
+    WHERE account_id = 9989;
+
+ # IF <exactly one row was updated by the previous statement> THEN
+    /* everything worked, make the changes permanent */
+    COMMIT; #It's all good save all transactions
+  #ELSE
+    /* something went wrong, undo all changes in this transaction */
+    ROLLBACK;
+ # END IF;
+#ELSE
+  /* insufficient funds, or error encountered during update */
+  ROLLBACK;
+#END IF;
+
+
+
+
+SET autocommit = OFF
+-- 1. start a new transaction
+START TRANSACTION;
+
+-- 2. Get the latest order number
+SELECT 
+    @orderNumber:=MAX(orderNUmber)+1
+FROM
+    orders;
+
+-- 3. insert a new order for customer 145
+INSERT INTO orders(orderNumber,
+                   orderDate,
+                   requiredDate,
+                   shippedDate,
+                   status,
+                   customerNumber)
+VALUES(@orderNumber,
+       '2005-05-31',
+       '2005-06-10',
+       '2005-06-11',
+       'In Process',
+        145);
+        
+-- 4. Insert order line items
+INSERT INTO orderdetails(orderNumber,
+                         productCode,
+                         quantityOrdered,
+                         priceEach,
+                         orderLineNumber)
+VALUES(@orderNumber,'S18_1749', 30, '136', 1),
+      (@orderNumber,'S18_2248', 50, '55.09', 2); 
+      
+-- 5. commit changes    
+COMMIT;
+#SAMARA BECERRA 
+DELIMITER //
+CREATE PROCEDURE test()
+	BEGIN 
+    DECLARE sql_error TINYINT DEFAULT FALSE;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+		SET sql_error = TRUE;	
+	START transaction;
+		INSERT INTO rental
+			VALUES (DEFAULT, "2021-06-11", 368,1, "2021-06-14", 1, DEFAULT);
+		INSERT INTO rental
+			VALUES (DEFAULT, "2021-06-11", 369,1, "2021-06-14", 1, DEFAULT);
+		INSERT INTO rental
+			VALUES (DEFAULT, "2021-06-11", 4583,1, "2021-06-14", 1, DEFAULT);
+		IF sql_error = FALSE then 
+			COMMIT;
+			SELECT 'The transaction was committed';
+        ELSE 
+			Rollback;
+		SELECT 'The transaction was ROLLED BACK';
+        END IF;
+END //
+CALL test ();
+
+#check duplicate films:
+
+select * from film order by film_id desc;
+
+SET autocommit = OFF;
+
+INSERT INTO film 
+(film_id, 
+title, 
+release_year, 
+language_id, 
+rental_duration, 
+rental_rate, 
+length, 
+replacement_cost, 
+rating, 
+last_update) 
+VALUES 
+(1001, 
+'Ben-Hur', 
+1959, 
+1, 
+3, 
+4.99, 
+212, 
+15.99, 
+'PG', 
+NOW());
+
+INSERT INTO film 
+(film_id, 
+title, 
+release_year, 
+language_id, 
+rental_duration, 
+rental_rate, 
+length, 
+replacement_cost, 
+rating, 
+last_update) 
+VALUES 
+(1002, 
+'Spirited Away', 
+2001, 
+1, 
+3, 
+4.99, 
+125, 
+19.99, 
+'PG', 
+NOW());
+
+CREATE TABLE sakila.store_budget (
+budget_id INT NOT NULL,
+store_id TINYINT unsigned NOT NULL,
+amount DOUBLE NOT NULL,
+PRIMARY KEY (budget_id),
+CONSTRAINT store_fkey
+FOREIGN KEY (store_id)
+REFERENCES sakila.store (store_id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION);
+
+start transaction;
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9001,
+1001,
+1,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+#(max (inventory_id) + 1,
+(9002,
+1001,
+1,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9003,
+1001,
+1,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9004,
+1001,
+2,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9005,
+1001,
+2,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9006,
+1001,
+2,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9007,
+1002,
+1,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9008,
+1002,
+1,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9009,
+1002,
+1,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9010,
+1002,
+2,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9011,
+1002,
+2,
+now());
+INSERT INTO `sakila`.`inventory`
+(`inventory_id`,
+`film_id`,
+`store_id`,
+`last_update`)
+VALUES
+(9012,
+1002,
+2,
+now());
+
+UPDATE `sakila`.`store_budget`
+SET
+`budget_id` = budget_id,
+`store_id` = store_id,
+`amount` = amount - 3*(SELECT replacement_cost FROM film WHERE film_id = 1001) - 3*(SELECT replacement_cost FROM film WHERE film_id = 1002)
+WHERE `budget_id` = 101;
+
+####Helpful statements for the homework:
+#--create a table for account information
+
+CREATE TABLE sakila.account (
+account_id INT unsigned NOT NULL,
+avail_balance DOUBLE NOT NULL,
+last_activity_date DATETIME NOT NULL,
+PRIMARY KEY (account_id));
+
+#--create a table to track account activity:
+
+CREATE TABLE sakila.account_activity(
+activity_id INT unsigned NOT NULL AUTO_INCREMENT,
+activity_date DATETIME NULL,
+account_id INT unsigned NULL,
+activity_type_cd VARCHAR(1) NOT NULL,
+amount DOUBLE NULL,
+PRIMARY KEY (activity_id),
+FOREIGN KEY (account_id) REFERENCES account(account_id));
+
+#Explore
+START TRANSACTION;
+
+-- Update the customer's email address
+UPDATE customer
+SET email = 'newcustomer@email.com'
+WHERE customer_id = 1;
+
+-- Insert a new payment record
+INSERT INTO payment (customer_id, staff_id, rental_id, amount, payment_date)
+VALUES (1, 2, 15, 9.99, NOW());
+
+COMMIT;
+
+select *
+from customer
+WHERE customer_id = 1;
+
+
+START TRANSACTION;
+
+-- Get the rental duration
+SELECT TIMESTAMPDIFF(DAY, rental_date, return_date) INTO @duration
+FROM rental
+WHERE rental_id = 1;
+
+-- Update the customer's status based on rental duration
+UPDATE customer
+SET active = IF(@duration > 7, 0, 1)
+WHERE customer_id = 1;
+
+-- Insert a new payment record
+INSERT INTO payment (customer_id, staff_id, rental_id, amount, payment_date)
+VALUES (1, 2, 15,
+    IF(@duration > 7, 9.99, 14.99),
+    NOW());
+
+COMMIT;
+
+START TRANSACTION;
+
+-- Get the rental duration
+SELECT rental_date, return_date, TIMESTAMPDIFF(DAY, rental_date, return_date) AS rental_duration
+FROM rental
+WHERE rental_id = 1;
+
+-- Update the customer's status based on rental duration
+UPDATE customer
+SET active = IF(rental_duration > 7, 0, 1)
+WHERE customer_id = 1;
+
+-- Insert a new payment record
+INSERT INTO payment (customer_id, staff_id, rental_id, amount, payment_date)
+VALUES (1, 2, 15,
+    IF(rental_duration > 7, 9.99, 14.99),
+    NOW());
+
+COMMIT;
+

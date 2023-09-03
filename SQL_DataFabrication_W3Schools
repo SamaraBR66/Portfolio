@@ -1,0 +1,321 @@
+
+#Data Fabrication 
+SELECT "college budget" budget_level, 0 min_price, 12 max_price
+union all 
+SELECT "date night" budget_level, 12.01 min_price, 49.99 max_price
+union all 
+SELECT "who's going to buy this?" budget_level, 50 min_price, 100 max_price
+;
+
+#"Mesh the fake data with the W3 school data"
+SELECT product_prices.productName, product_prices.price, budget_table.budget_level
+FROM
+(SELECT ProductName, Price FROM Products) product_prices
+JOIN
+(SELECT "College Budget" budget_level, 0 min_price , 12 max_price
+UNION ALL
+SELECT "Date Night Budget" budget_level, 12.01 min_price , 49.99 max_price
+UNION ALL
+SELECT "Who is going to buy this?" budget_level, 50 min_price , 1000 max_price) budget_table
+ON product_prices.price BETWEEN budget_table.min_price AND budget_table.max_price;
+
+#Another example
+#HOW MANY __ FOR EACH means GROUP BY
+
+SELECT  actor_id, number_roles, level
+FROM 
+(SELECT actor_id, count(*) number_roles
+FROM film_actor
+group by actor_id) as actor_film_count #name of phanton table
+JOIN
+(SELECT 'Hollywood Star' level, 30 min_roles, 99999 max_roles
+UNION ALL
+SELECT 'Prolific Actor' level, 20 min_roles, 29 max_roles
+UNION ALL
+SELECT 'Newcomer' level, 1 min_roles, 19 max_roles) as tier_levels
+ON actor_film_count.number_roles BETWEEN tier_levels.min_roles AND tier_levels.max_roles; #ON as a weird WERE
+;  #two tables joined 
+#
+
+
+
+
+
+SELECT tier_levels.level, COUNT(actor_film_count.actor_id) AS actor_count
+FROM
+    (SELECT actor_id, COUNT(*) AS film_count
+    FROM film_actor
+    GROUP BY actor_id) AS actor_film_count
+JOIN
+    (SELECT 'Hollywood Star' AS level, 30 AS min_roles, 99999 AS max_roles
+    UNION ALL
+    SELECT 'Prolific Actor' AS level, 20 AS min_roles, 29 AS max_roles
+    UNION ALL
+    SELECT 'Newcomer' AS level, 1 AS min_roles, 19 AS max_roles) AS tier_levels
+ON
+    actor_film_count.film_count BETWEEN tier_levels.min_roles AND tier_levels.max_roles
+GROUP BY
+    tier_levels.level;
+
+
+SELECT first_name, last_name
+FROM customer c
+WHERE exists(
+			SELECT 1 
+            from payment p
+            where amount > 11 and 
+             c.customer_id = p.customer_id);
+
+
+SELECT PRICE, PRODUCTNAME
+FROM PRODUCTS P2
+WHERE 
+(SELECT AVG(PRICE) 
+FROM PRODUCTS
+WHERE SUPPLIERID = P2.SUPPLIERID);
+
+
+#correlated subqueries which connect to the 'film_actor' table referenced in the outer query.
+SELECT   fa.actor_id, fa.film_id
+FROM     film_actor fa
+WHERE    exists (
+				select 1
+                from actor a
+                WHERE a.last_name = 'MONROE'
+                and
+                fa.actor_id = a.actor_id)
+  and exists(select 1
+                from film f
+                where f.rating 'PG'
+                and fa.film_id =f.film_id);
+                
+                
+ #The above one corrected (great job!               
+SELECT fa.actor_id, fa.film_id
+FROM film_actor fa
+WHERE EXISTS (
+    SELECT 1
+    FROM actor a
+    WHERE a.last_name = 'MONROE'
+    AND fa.actor_id = a.actor_id
+)
+AND EXISTS (
+    SELECT 1
+    FROM film f
+    WHERE f.rating = 'PG'
+    AND fa.film_id = f.film_id
+);
+
+#JOINS 
+-- products that do not have categories
+SELECT * FROM [Products]
+LEFT JOIN
+Categories
+ON products.categoryID=categories.categoryID
+WHERE products.categoryID is null;
+
+#left join includes exclusive left join and inclusive left join A 
+#products that have matching category and 
+#one that doesnt 
+
+#exclusive left join W3 SCHOOLS
+#Inclusive
+SELECT orderID, orders.employeeID, orderDate, firstName, lastName 
+FROM [Orders] 
+LEFT JOIN Employees 
+on orders.employeeID = employees.employeeID
+
+#Exclusive
+SELECT orderID, orders.employeeID, orderDate, firstName, lastName 
+FROM [Orders] 
+LEFT JOIN Employees 
+on orders.employeeID = employees.employeeID 
+WHERE orders.EmployeeID IS NULL
+
+#
+SELECT orders.orderID 
+FROM [orders]
+LEFT JOIN
+orderDetails
+ON orders.orderID = orderDetails.orderID;
+
+INSERT INTO sakila.actor
+(first_name,
+last_name,
+last_update)
+VALUES
+('JIM',
+'SMITH'
+,CURRENT_TIMESTAMP);
+
+select  first_name, last_name
+from actor
+where first_name='JIM' AND last_name ='smith';
+
+#SAMARA BECERRA
+select first_name, last_name, film_id
+from actor a 
+left join film_actor fa
+on a.actor_id = fa.actor_id
+order by film_id;
+
+DELETE FROM sakila.actor 
+WHERE first_name = 'JIM' 
+AND last_name = 'SMITH';
+
+#LEFT JOIN EXAMPLE IN W3 SCHOOLS
+
+#I can find the "worst movies" the ones are never rented  *****
+#TO FIND ADAM WEST who doesnt have an EmployeeID
+SELECT * 
+FROM employees e
+left join orders o
+on e.employeeID = o.EmployeeID
+where o.EmployeeID is null ;
+
+#show me all customers who ve never made a payment  OUTER JOIN 
+#Turns out there are no NULLS so every movie has been rented
+
+#Exercises W9
+SELECT C.customer_id, sum(p.amount)
+FROM CUSTOMER C
+left JOIN PAYMENT P
+on c.customer_id  = p.customer_id
+group by c.customer_id;
+
+SELECT C.customer_id, sum(p.amount)
+FROM CUSTOMER C
+RIGHT JOIN PAYMENT P
+on c.customer_id  = p.customer_id
+group by c.customer_id;
+
+#Scavenger
+ SELECT DISTINCT
+         f.film_id left_id
+,        i.film_id right_id
+,        f.title
+FROM     film f 
+NATURAL JOIN inventory i
+ORDER BY 1;
+
+SELECT DISTINCT  f.film_id left_id
+     ,        i.film_id right_id
+     ,        f.title
+     FROM    (SELECT film_id
+              ,      title
+     FROM     film) f NATURAL JOIN inventory i
+     ORDER BY 1;
+
+
+SELECT f.film_id left_id
+,      i.film_id right_id
+,      f.title
+FROM   film f LEFT OUTER JOIN inventory i
+ON     f.film_id = i.film_id
+WHERE  i.film_id IS NULL
+ORDER BY 1;
+
+SELECT  *
+FROM   (SELECT 'Yes'   AS reply
+          UNION ALL
+			SELECT 'No'    AS reply) decided CROSS JOIN
+          (SELECT 'Maybe' AS reply) undecided;
+
+SELECT  *
+    FROM   (SELECT 'Yes'   AS reply
+      UNION ALL
+        SELECT 'No'    AS reply
+         UNION ALL
+          SELECT 'Maybe' AS reply) r;
+          
+SELECT  *
+     FROM   (SELECT 'Yes'       AS reply
+             ,      'Decided'   AS answer
+             UNION ALL
+             SELECT 'No'        AS reply
+             ,      'Decided'   AS answer
+             UNION ALL
+             SELECT 'Maybe'     AS reply
+             ,      'Undecided' AS answer) a
+             LEFT JOIN
+            (SELECT 'Yes'       AS reply
+             UNION ALL
+             SELECT 'No'        AS reply) b
+     ON      a.reply = b.reply;
+     
+SELECT f.film_id left_id
+,      i.film_id right_id
+,      f.title
+FROM   inventory i RIGHT OUTER JOIN film f
+ON     f.film_id = i.film_id
+WHERE  i.film_id IS NULL
+ORDER BY 1; 
+
+
+SELECT  *
+     FROM   (SELECT 'Yes'       AS reply
+            ,      'Decided'   AS answer
+             UNION ALL
+             SELECT 'No'        AS reply
+             ,      'Decided'   AS answer
+             UNION ALL
+             SELECT 'Maybe'     AS reply
+             ,      'Undecided' AS answer) a
+             LEFT JOIN
+            (SELECT 'Yes' AS reply
+             UNION ALL
+             SELECT 'No'  AS reply) b
+     ON      a.reply = b.reply
+     WHERE   b.reply IS NOT NULL;
+     
+#The CROSS JOIN keyword is used to combine all possible combinations of rows from the ones and tens subqueries. 
+#This generates a result set with all possible combinations of 'ones' and 'tens' digits.
+SELECT (tens.number * 10) + ones.number AS result
+FROM
+  (SELECT 0 AS number 
+  UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+   SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) ones
+CROSS JOIN
+  (SELECT 0 AS number 
+  UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+   SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) tens
+   
+#The formula (tens.number * 10) + ones.number is used to calculate the actual numbers in our desired set.
+#It multiplies the 'tens' digit by 10 and adds the 'ones' digit.
+WHERE
+  (tens.number * 10) + ones.number <= 100
+ORDER BY result;
+
+#Please write a query that lists ALL movies that start with 'MU', and display the inventory_id if the movie 
+#is in stock or null if the movie is not in stock. You will need to join the film and inventory tables and 
+#then order by inventory_id, then title to get the following 39 rows
+
+SELECT f.title, i.inventory_id
+FROM film AS f
+JOIN inventory AS i 
+ON f.film_id = i.film_id
+LEFT JOIN rental AS r 
+ON i.inventory_id = r.inventory_id
+WHERE f.title LIKE 'MU%'
+GROUP BY f.title, i.inventory_id
+ORDER BY i.inventory_id, f.title;
+
+SELECT f.title,  i.inventory_id
+FROM film AS f
+LEFT JOIN inventory AS i ON f.film_id = i.film_id
+LEFT JOIN rental AS r ON i.inventory_id = r.inventory_id
+WHERE f.title LIKE 'MU%'
+  AND r.inventory_id IS NULL;
+
+#Explore
+SELECT c.customer_id, c.first_name, c.last_name, p.payment_id, p.amount
+FROM customer AS c
+LEFT JOIN payment AS p ON c.customer_id = p.customer_id;
+
+SELECT a.actor_id, COUNT(f.film_id)
+FROM actor AS a
+RIGHT JOIN film_actor AS fa ON a.actor_id = fa.actor_id
+RIGHT JOIN film AS f ON fa.film_id = f.film_id
+GROUP BY a.actor_id;
+
+

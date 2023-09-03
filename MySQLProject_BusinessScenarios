@@ -1,0 +1,1579 @@
+
+use drums;
+
+-- INSERTS BILLING
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(1,
+15447788996504,
+1,
+2023,
+098);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(2,
+52881733008322,
+2,
+2024,
+739);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(3,
+77201558833241,
+3,
+2024,
+633);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(4,
+44662291827733,
+4,
+2025,
+284);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(5,
+33772937216639,
+12,
+2025,
+608);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(6,
+28874550917233,
+2,
+2027,
+854);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(7,
+39507033992285,
+10,
+2026,
+230);
+
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(8,
+9934747498595,
+8,
+2027,
+954);
+
+-- INSERTS customer
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1001,
+'Natalia',
+'Trujillo',
+'nattru123',
+'P@ssw0rd!',
+1);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1002,
+'Wei',
+'Zhang',
+'weizh77',
+'weizh77',
+2);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1003,
+'David',
+'Johnson',
+'johnda86',
+'Pass1234!',
+3);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1004,
+'Aarav',
+'Patel',
+'pataar22',
+'vintage397',
+4);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1005,
+'Kwame',
+'Nwachukwu',
+'kwnwu2003',
+'StrongP@ss',
+5);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1006,
+'Sione',
+'Taufa',
+'sisitfa1',
+'Wond3rL@nd$',
+6);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1007,
+'Karls',
+'Muller',
+'mullerk94',
+'Sparkle_2023',
+7);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1008,
+'Marco',
+'Mejia',
+'mariomj53',
+'glam0ru*s',
+8);
+
+
+-- INSERTS FOR STATE
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(1,
+'California');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(2,
+'New York');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(3,
+'Texas');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(4,
+'Illinois');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(5,
+'Massachusetts');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(6,
+'Washington');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(7,
+'Colorado');
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(8,
+'Arizona');
+
+-- INSERTS shipper
+INSERT INTO `drums`.`shipper`
+(`shipper_id`,
+`name`,
+`phone`)
+VALUES
+(201,
+'UPS',
+18887425877);
+
+INSERT INTO `drums`.`shipper`
+(`shipper_id`,
+`name`,
+`phone`)
+VALUES
+(202,
+'FedEx',
+18004633339);
+
+
+-- INSERTS FOR SHIPPING 
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP123456789',
+90001,
+123,
+'Los Angeles',
+202,
+1);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP24681357',
+11201,
+456,
+'Brooklyn',
+202,
+2);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP54321678',
+77002,
+789,
+'Houston',
+201,
+3);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP13579246',
+60601,
+567,
+'Chicago',
+201,
+4);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP86420973',
+02108,
+890,
+'Boston',
+201,
+5);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP32069587',
+98101,
+901,
+'Seattle',
+202,
+6);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP57210986',
+80202,
+678,
+'Denver',
+202,
+7);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP75246091',
+85001,
+134,
+'Phoenix',
+201,
+8);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP76216090',
+90002,
+606,
+'San Francisco',
+202,
+1);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP31069587',
+98102,
+1111,
+'Bellevue',
+201,
+6);
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP33420178',
+85002,
+1313,
+'Tucson',
+202,
+8);
+
+
+
+
+
+-- insert STAFF 
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(444,
+'Jennifer',
+'Johnson',
+'jenjo@outlook.com');
+
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(222,
+'Mei',
+'Chen',
+'chen_222@yahoo.com');
+
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(333,
+'Sakura',
+'Tanaka',
+'sakurat@gmail.com');
+
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(492,
+'Mohammed',
+'Abdullah',
+'sakurat@gmail.com');
+
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(108,
+'Lisa',
+'Wang',
+'liwang31@gmail.com');
+
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(749,
+'David',
+'Lee',
+'leedavid@yahoo.com');
+
+INSERT INTO `drums`.`staff`
+(`staff_id`,
+`first_name`,
+`last_name`,
+`email`)
+VALUES
+(254,
+'Hiroshi',
+'Yamamoto',
+'hiroshi.yam@yahoo.com');
+
+
+-- INSERT FOR ORDER
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or01',
+'2022-05-03',
+1001,
+1,
+'SHP123456789',
+108);
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or02',
+'2023-01-18',
+1002,
+2,
+'SHP13579246',
+222);
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or03',
+'2022-08-10',
+1003,
+3,
+'SHP24681357',
+333);
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or04',
+'2022-11-27',
+1004,
+4,
+'SHP32069587',
+429);
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or05',
+'2023-04-09',
+1005,
+5,
+'SHP54321678',
+444);
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or06',
+'2022-07-22',
+1006,
+6,
+'SHP57210986',
+492);
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or08',
+'2023-03-14',
+1008,
+8,
+'SHP86420973',
+254);
+
+
+#INSERT BRAND
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(1,
+'Zildjian');
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(2,
+'Sabian');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(3,
+'Meinl');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(4,
+'stagg');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(5,
+'Dixon');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(6,
+'Pearl');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(7,
+'Rogers');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(8,
+'Gretsch');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(9,
+'Ludwig');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(10,
+'PDP');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(11,
+'Vic');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(12,
+'Vater');
+
+INSERT INTO `drums`.`brand`
+(`brand_id`,
+`brand_name`)
+VALUES
+(13,
+'Tama');
+
+-- INSERTS CATEGORY 
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(1,
+'snare_drums');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(2,
+'cymbals');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(3,
+'toms');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(4,
+'pedals');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(5,
+'seats');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(6,
+'sticks');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(7,
+'accesories');
+
+INSERT INTO `drums`.`category`
+(`category_id`,
+`name`)
+VALUES
+(8,
+'other');
+
+-- INSERTS PRODUCT
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(633816756856,
+'Studio Select 14"x6.5"',
+250,
+'in stock',
+6,
+1);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(367564677261,
+'snare drum 5.5" x 14"Bubinga',
+375,
+'in stock',
+5,
+1);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(019239426376,
+'Brooklyn 5" x 10"',
+329,
+'in stock',
+8,
+1);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(642388315170,
+'Performer 5',
+599.95,
+'in stock',
+1,
+2);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(622537088797,
+'HHX Complex',
+900,
+'in stock',
+2,
+2);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(641064916151,
+'Evolution 9" x 12"',
+99,
+'in stock',
+9,
+3);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(647139553269,
+'Concept Maple 7" x 8" ',
+169,
+'out of stock',
+10,
+3);
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(633816710803,
+'Studio Classic 15" x 14"',
+456,
+'in stock',
+6,
+3);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(840553085785,
+'single Bassbox/Snarebox',
+69,
+'in stock',
+3,
+4);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+( 647139567402,
+'Double Concept Series',
+299,
+'out of stock',
+10,
+4);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(50813172,
+'single 360 Bass',
+65,
+'in stock',
+7,
+4);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(647139486116,
+'Pro Drum Throne',
+179,
+'in stock',
+8,
+5);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(647139570075,
+'700 Series Throne Tractor',
+99,
+'out of stock',
+10,
+5);
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(750795017614,
+'Classic 5B Sticks',
+15,
+'in stock',
+11,
+6);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(641652341013,
+'Xtreme 5B Sticks',
+11,
+'in stock',
+11,
+6);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(840553069679,
+'Stick Holder in Jawbreaker',
+33,
+'in stock',
+3,
+7);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(647139551135,
+'Snare Head 12" White Coated Dry',
+19,
+'in stock',
+10,
+7);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(4515276966913,
+'Rug Oriental ',
+180,
+'in stock',
+13,
+8);
+
+INSERT INTO `drums`.`product`
+(`product_id`,
+`name`,
+`price`,
+`stock_status`,
+`brand_id`,
+`category_id`)
+VALUES
+(642388113929,
+'Gloves Large ',
+28,
+'in stock',
+1,
+8);
+
+-- INSERT INVENTORY 
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(1,
+4,
+19239426376,
+'SHP123456789');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(2,
+10,
+367564677261,
+'SHP13579246');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(3,
+10,
+4515276966913,
+'SHP24681357');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(4,
+8,
+50813172,
+'SHP32069587');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(5,
+30,
+622537088797,
+'SHP54321678');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(6,
+22,
+633816710803,
+'SHP57210986');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(7,
+36,
+633816756856,
+'SHP75246091');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(8,
+41,
+641064916151,
+'SHP75246091');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(9,
+69,
+641652341013,
+'SHP123456789');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(10,
+69,
+642388113929,
+'SHP13579246');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(11,
+50,
+642388315170,
+'SHP24681357');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(12,
+50,
+647139486116,
+'SHP32069587');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(13,
+35,
+647139551135,
+'SHP54321678');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(14,
+0,
+647139553269,
+'SHP57210986');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(15,
+0,
+647139567402,
+'SHP75246091');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(16,
+0,
+647139570075,
+'SHP86420973');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(17,
+36,
+750795017614,
+'SHP76216090');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(18,
+45,
+840553069679,
+'SHP31069587');
+
+INSERT INTO `drums`.`inventory`
+(`inventory_id`,
+`quantity`,
+`product_id`,
+`shipping_shipping_id`)
+VALUES
+(19,
+16,
+840553085785,
+'SHP33420178');
+
+-- CRUD Create/Insert, Read/SELECT, Update, and Delete
+-- Insert a new customer and her billing information 
+INSERT INTO `drums`.`billing`
+(`billing_id`,
+`card_number`,
+`card_month`,
+`card_year`,
+`cvv`)
+VALUES
+(9,
+2001733238325,
+10,
+2025,
+673);
+
+INSERT INTO `drums`.`customer`
+(`customer_id`,
+`first_name`,
+`last_name`,
+`user_name`,
+`password`,
+`billing_id`)
+VALUES
+(1009,
+'Louis',
+'Ruiz',
+'ruizito99',
+'loruiz_02',
+9);
+-- SELECT using product and inventory tables
+-- To see the quantity of products on inventory to know where I need to supply more.
+
+select quantity, p.name
+from inventory i
+join product p
+on p.product_id = i.product_id
+order by p.name;
+
+
+
+-- UPDATE a customer's shipping address because they moved 
+-- SHP31069587 to update but first add a state in this case Ohio then create the new Shipping ID
+
+INSERT INTO `drums`.`state`
+(`state_id`,
+`state`)
+VALUES
+(9,
+'Ohio');
+
+INSERT INTO `drums`.`shipping`
+(`shipping_id`,
+`zip_code`,
+`apartment`,
+`city`,
+`shipper_id`,
+`state_id`)
+VALUES
+('SHP31069588',
+43201,
+1518,
+'Columbus',
+201,
+ 9);
+
+
+
+UPDATE `drums`.`shipping`
+SET
+`shipping_id` = 'SHP31069587'
+
+WHERE `shipping_id` = 'SHP31069588';
+
+-- DELETE
+-- Delete a product because it's sold out and the manufacturer no longer provides it
+
+select *
+from product;
+
+DELETE FROM `drums`.`product`
+WHERE product_id = 647139553269;
+
+select *
+from product 
+where product_id = 647139553269;
+
+select * 
+from shipping;
+
+-- Create a view for a quick view on the customers' information for an order including full name name, city, and shipping
+
+Create view customer_quick_view as 
+select concat(cu.first_name, ',' , cu.last_name) as full_name, city, o.shipping_id
+from shipping sh
+join `order` o on sh.shipping_id = o.shipping_id
+join customer cu on o.customer_id = cu.customer_id;
+
+select *
+from customer_quick_view;
+
+-- MOCKUPS
+-- A query that shows a customer's order placed and assigned to a staff member
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or9',
+NOW(),
+1009,
+9,
+'SHP86420973',
+749);
+
+select *
+from `order`
+WHERE order_id = 9;
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or10',
+NOW(),
+1008,
+8,
+'SHP123456789',
+108);
+
+INSERT INTO `drums`.`order_details`
+(`order_details_id`,
+`quantity`,
+`product_id`,
+`order_id`)
+VALUES
+(1,
+1,
+50813172,
+'or10');
+
+INSERT INTO `drums`.`order_details`
+(`order_details_id`,
+`quantity`,
+`product_id`,
+`order_id`)
+VALUES
+(2,
+1,
+622537088797,
+'or10');
+
+
+INSERT INTO `drums`.`order`
+(`order_id`,
+`date`,
+`customer_id`,
+`billing_id`,
+`shipping_id`,
+`staff_id`)
+VALUES
+('or11',
+NOW(),
+1005,
+5,
+'SHP31069588',
+492);
+
+
+INSERT INTO `drums`.`order_details`
+(`order_details_id`,
+`quantity`,
+`product_id`,
+`order_id`)
+VALUES
+(3,
+2,
+633816710803,
+'or11');
+
+-- SQL SCRIPTS 
+
+create view  order_review as
+select first_name, last_name, order_id
+from `order` o
+join customer cu
+on o.customer_id = cu.customer_id
+where first_name = 'Marco';
+
+select *
+from order_review;
+
+-- sum amount product and order details join on product id
+
+SELECT SUM(p.price) AS total_cost
+FROM product p
+JOIN order_details od ON p.product_id = od.product_id
+WHERE p.product_id IN (622537088797, 50813172);
+
+-- By order id
+
+
+SELECT SUM(p.price * od.quantity) AS total_cost
+FROM order_details od
+JOIN product p ON od.product_id = p.product_id
+WHERE od.order_id = 'or10';
+
+-- Look for a product in the search bar 
+
+
+
+SELECT product_id, `name`, price
+FROM product
+WHERE `name` LIKE '%sticks%';
+
+-- Business scenarios
+
+
+SELECT product_id, `name`,
+CASE
+    WHEN stock_status= 'out of stock' THEN 'Restock'
+    ELSE 'Enough Items'
+END Inventory_status
+FROM product
+ORDER BY `name` asc;
+
+-- Amount sold from april to july 2023
+
+select `name`, price 
+  from product p1
+  where
+  price IN (select MAX(price)
+  FROM  product p2
+  where p2.product_id = p1.product_id
+  group by p2.price);
+
+-- Find the most expensive item in the sotre
+
+
+SELECT `name`, price, category_id
+FROM product
+WHERE category_id = 1 
+AND price = (SELECT MIN(price) 
+FROM product WHERE category_id = 1);
+
+-- See all orders from july 2023
+
+select od.order_id, o.`date`
+from order_details od
+join `order` o 
+on od.order_id = o.order_id
+WHERE o.`date` BETWEEN '2023-07-01' AND '2023-07-22'; 
+
+
+-- Create view to see what staff member is in charge of what order(s)
+Create view staff_orders AS
+select o.order_id, o.`date`, st.first_name
+from `order` o
+join staff st
+on o.staff_id = st.staff_id
+order by order_id ;
+
+select * 
+from staff_orders;
+

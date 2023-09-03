@@ -1,0 +1,160 @@
+
+#Conditional Logic
+# Always use case and end 
+
+select first_name,last_name,store_id,
+case 
+	when store_id = 1 then 'Rexburg Store'
+    when store_id = 2 then 'IF Store'
+end as store
+from customer;
+
+
+select customer_id, sum(amount),
+case 
+when sum(amount) > 100 then 'High Spender'
+else 'Low Spender'
+end as claim
+from payment
+group by customer_id;
+
+#**Good example
+SELECT r.customer_id, r.rental_date, r.return_date, datediff(r.return_date, r.rental_date) as days_checked_out,
+CASE
+WHEN r.return_date IS NULL THEN "NotReturned"
+ELSE "Returned"
+END AS "Ret"
+FROM rental r
+INNER JOIN inventory i ON r.inventory_id = i.inventory_id
+INNER JOIN film f ON i.film_id = f.film_id
+WHERE f.title = "Academy Dinosaur"
+order by days_checked_out desc;
+
+SELECT title, rental_rate,
+    CASE
+        WHEN rental_rate >= 4 THEN "Too much for broke collage students"
+        ELSE "Broke collage students can afford"
+    END "Who can Afford"
+FROM film;
+
+SELECT first_name, last_name,
+CASE
+    WHEN password IS NULL THEN 'Password not set'
+    ELSE '*********'
+END AS password
+FROM staff;
+
+SELECT title, special_features,
+CASE
+    WHEN special_features LIKE '%Scenes%' THEN 'yes'
+    ELSE 'no'
+END Has_Extra_Scenes
+FROM film
+ORDER BY Has_Extra_Scenes desc;
+
+SELECT film_id, title, rental_rate,
+CASE
+    WHEN rental_rate <= 3 THEN 'Not for procastinators'
+    WHEN rental_rate > 3 THEN 'Procrastinators safe'
+END AS 'Movies YOU can procrastinate to return before getting charged a fee'
+FROM film;
+
+SELECT c.first_name, c.last_name,
+   CASE
+        WHEN active = 0 THEN 0
+         ELSE
+          (SELECT count(*) FROM rental r
+          WHERE r.customer_id = c.customer_id)
+       END num_rentals
+     FROM customer c;
+     
+     select *
+     from film;
+     
+     
+
+     #Prep Material 
+     select title, rating,
+      case 	
+		when rating = 'G' then 'General Audience'
+        when rating = 'PG' then 'Parental Guidance'
+		when rating = 'PG-13' then 'Parents strongly cautioned'
+		when rating = 'R' then 'Restricted'
+        when rating = 'NC-17' then 'Clearly Adult'
+        else 'Not Rated'
+	end Rating_description
+    from film;
+     
+     #Samara Becerra
+     #To SUM
+SELECT 
+  SUM(CASE WHEN rating = 'G' THEN 1 ELSE 0 END) AS G_rating,
+  SUM(CASE WHEN rating = 'PG' THEN 1 ELSE 0 END) AS PG_rating,
+  SUM(CASE WHEN rating = 'PG-13' THEN 1 ELSE 0 END) AS PG_13_rating,
+  SUM(CASE WHEN rating = 'R' THEN 1 ELSE 0 END) AS R_rating,
+  SUM(CASE WHEN rating = 'NC-17' THEN 1 ELSE 0 END) AS NC17_rating;
+  
+#Fri/June 23
+  
+SELECT first_name, last_name,
+CASE
+WHEN COUNT(film_id) < 20 THEN "Newbie"
+WHEN COUNT(film_id) >= 20 AND COUNT(film_id) < 30 THEN "Average"
+ELSE "Master"
+END as ranking
+FROM actor
+JOIN film_actor USING(actor_id)
+GROUP BY actor_id
+ORDER BY COUNT(film_id);
+
+#simpler version without CASE to count number of movies appeared in:
+ 
+SELECT first_name, last_name, count(*)
+FROM actor
+JOIN film_actor USING(actor_id)
+GROUP BY actor_id
+ORDER BY COUNT(film_id);
+
+#ORDER BY COUNT(film_id)
+        
+        when rating = 'PG' then 'Parental Guidance'
+		when rating = 'PG-13' then 'Parents strongly cautioned'
+		when rating = 'R' then 'Restricted'
+        when rating = 'NC-17' then 'Clearly Adult'
+        else 'Not Rated'
+	end Rating_description
+    from film;
+	
+    
+    
+SELECT film_id, title,
+  CASE
+    WHEN length < 60 THEN 'Short'
+    WHEN length >= 60 AND length < 120 THEN 'Medium'
+    ELSE 'Long'
+  END AS length_category
+FROM film;
+
+SELECT f.film_id, f.title, f.length,
+  CASE
+    WHEN f.length < 60 THEN 'Short'
+    WHEN f.length >= 60 AND f.length < 90 THEN 'Medium'
+    ELSE 'Long'
+  END AS length_category,
+  a.actor_id, a.first_name, a.last_name
+FROM film f
+LEFT JOIN film_actor fa 
+ON f.film_id = fa.film_id
+LEFT JOIN actor a 
+ON fa.actor_id = a.actor_id;
+
+SELECT CASE 'B'
+     WHEN 'A' THEN 'Alpha'
+         WHEN 'B' THEN 'Beta'
+           WHEN 'C' THEN 'Charlie'
+          ELSE 'Zulu'
+           END answer;
+
+
+
+

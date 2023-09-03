@@ -1,0 +1,162 @@
+
+-- Views
+-- Samara Becerra
+
+create or replace view actor_with_films as 
+	select first_name, last_name, title, description, release_year
+    from film f
+		join film_actor fa 
+			on f.film_id =  fa.film_id
+		join actor a
+			on a.actor_id = fa.actor_id;
+            
+-- call it 
+
+select *
+from actor_with_films;
+
+--  title  category_name first_name last_name 
+
+CREATE VIEW film_ctgry_actor AS
+SELECT f.title, c.name AS category_name, a.first_name, a.last_name
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+JOIN film_actor fa ON f.film_id = fa.film_id
+JOIN actor a ON fa.actor_id = a.actor_id
+WHERE a.last_name = 'FAWCETT';
+
+SELECT title, 
+category_name,
+first_name,
+last_name
+FROM film_ctgry_actor
+WHERE last_name = 'FAWCETT';
+
+#2
+
+CREATE VIEW tot_payments AS 
+SELECT country, sum(amount)
+from country c
+join city ci on c.country_id = ci.country_id
+join address a on a.city_id = ci.city_id
+join customer cu on cu.address_id = ci.city_id
+join payment p on cu.customer_id = p.customer_id
+group by c.country_id , cu.customer_id ; 
+
+CREATE VIEW country_payments
+AS
+SELECT c.country,
+ (SELECT sum(p.amount)
+  FROM city ct
+    INNER JOIN address a
+    ON ct.city_id = a.city_id
+    INNER JOIN customer cst
+    ON a.address_id = cst.address_id
+    INNER JOIN payment p
+    ON cst.customer_id = p.customer_id
+  WHERE ct.country_id = c.country_id
+ ) tot_payments
+FROM country ct
+group by c.country_id , cst.customer_id;
+
+select *
+from tot_payments;
+
+CREATE VIEW country_payments AS
+SELECT ct.country,
+ (SELECT SUM(p.amount)
+  FROM city c
+    INNER JOIN address a
+    ON c.city_id = a.city_id
+    INNER JOIN customer cst
+    ON a.address_id = cst.address_id
+    INNER JOIN payment p
+    ON cst.customer_id = p.customer_id
+  WHERE c.country_id = ct.country_id
+ ) AS tot_payments
+FROM country ct
+GROUP BY ct.country_id;
+
+#3
+CREATE VIEW family_movies AS
+select title,release_year
+from film f
+join film_category fc
+on f.film_id = fc.film_id
+join category c
+on fc.category_id = c.category_id
+WHERE c.name IN ('Animation',
+'Children', 'Classics',
+'Comedy',
+'Drama',
+'Family') and 
+f.rating in ('G','PG')
+ORDER BY f.release_year DESC, f.title ASC;
+
+
+select * 
+from family_movies;
+
+#4
+CREATE VIEW actor_films_by_year as
+select CONCAT(a.first_name, ',' ,a.last_name) as full_name, f.release_year, count(*) as films_made
+from actor a
+join film_actor fa
+on a.actor_id = fa.actor_id
+join film f
+on fa.film_id = f.film_id
+group by full_name, a.actor_id, f.release_year;
+
+-- Explore assignment 
+
+CREATE VIEW NumberRentalsbyMovie AS
+SELECT f.film_id, f.title, COUNT(r.rental_id) AS times_rented
+FROM film AS f
+JOIN rental AS r ON f.film_id = r.film_id
+GROUP BY f.film_id, f.title;
+
+CREATE VIEW NumberRentalsbyMovie AS
+SELECT f.film_id, f.title, COUNT(r.rental_id) AS times_rented
+FROM film AS f
+JOIN inventory AS i ON f.film_id = i.film_id
+JOIN rental AS r ON i.inventory_id = r.inventory_id
+GROUP BY f.film_id, f.title;
+
+select * 
+from NumberRentalsbyMovie;
+
+
+-- 2 
+CREATE VIEW current_budget_by_store AS
+SELECT store_id, SUM(amount) AS total_amount
+FROM store_budget
+GROUP BY store_id;
+
+INSERT INTO `sakila`.`store_budget`
+(`budget_id`,
+`store_id`,
+`amount`)
+VALUES
+(1,
+1,
+2500);
+
+INSERT INTO `sakila`.`store_budget`
+(`budget_id`,
+`store_id`,
+`amount`)
+VALUES
+(2,
+2,
+2950);
+
+
+select * 
+from store_budget;
+
+select * 
+from current_budget_by_store;
+
+
+

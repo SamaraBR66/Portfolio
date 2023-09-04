@@ -1,0 +1,172 @@
+---
+title: "Stocks"
+format:
+  html:
+    code-fold: true
+    code-line-numbers: true
+    code-link: true
+editor: visual
+output: html_document
+execute:
+  keep-md: true
+---
+
+```{r}
+library(tidyquant)
+library(tidyverse)
+library(rio)
+library(ggplot2)
+library(ggthemes)
+
+```
+
+```{r, include=FALSE}
+# price_data <- tq_get(c("BA", "AMZN", "MSFT"),
+#        get = "stock.prices",
+#        from = "2020-03-01")
+
+stocks.dat <- tq_get(c("META", "JPM","GOOG", "MSFT", "AMZN", "NFLX"),
+                      get = "stock.prices", from = " 2022-10-01", to= "2023-03-01" ) %>%
+                      mutate(buyer = case_when(symbol %in% c("GOOG", "NFLX", "MSFT") ~ "Me",
+                           symbol %in% c("AMZN", "META", "JPM") ~ "My friend"))
+# stocks.dat  <- stocks.dat %>% 
+#   group_by(symbol) %>% slice(1)%>% ungroup() %>% 
+#   select(symbol, adjusted) %>% rename(new_adj= adjusted) %>% inner_join(stocks.dat, by = "symbol")
+# 
+# return <- stocks.dat %>% 
+#   mutate(return = adjusted/new_adj)
+# return
+
+# multiplied by 1k / 3(stocks)
+```
+
+```{r, include=FALSE}
+me <- stocks.dat %>% 
+   filter( buyer =="Me") %>% 
+   group_by(date, symbol)
+
+
+```
+
+```{r, include=FALSE}
+friend <- stocks.dat %>%
+  filter( buyer =="My friend") %>%
+  group_by(date, symbol)
+
+```
+
+```{r}
+#Create a chart to show who is winning at each day of the competition.
+ggplot(me, mapping = aes(x=date, y=adjusted, group=symbol, color=symbol)) +
+  geom_point() +
+  geom_line()+
+  labs(title = "My Stocks", y="Stock Price Adjusted") +
+  theme_economist()
+```
+
+```{r}
+#friends plot
+
+ggplot(friend, mapping = aes(x=date, y=adjusted, group=symbol, color=symbol)) +
+  geom_point() +
+  geom_line()+
+  labs(title = "Friend's Stocks", y="Stock Price Adjusted") +
+  theme_economist()
+```
+
+```{r, include=FALSE}
+#We also need to know which stock is helping the winner of the competition. Incorporate this into the visualization of the previous bullet, or create a separate visualization to tell this part of the story.
+
+both.stocks <-  stocks.dat %>%
+  group_by(date, buyer) %>%
+  summarize(mean = mean(adjusted))
+
+
+```
+
+```{r}
+ggplot(both.stocks, mapping = aes(x=date, y=mean, group=buyer, color=buyer)) +
+  geom_point() +
+  geom_line()+
+  labs(title = "Winner", y= "Stock Price Adjusted") +
+  theme_economist()
+```
+
+
+
+Indexes
+
+```{r, include=FALSE}
+return1 <- me %>%
+  group_by(symbol) %>%
+tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "daily",
+               type = "log")
+```
+
+```{r, include=FALSE}
+return1.group <- return1 %>% 
+  group_by(symbol) %>% 
+  summarise(avg.return =mean(daily.returns))  
+  #return1.group
+```
+
+
+
+```{r, include=FALSE}
+return2 <- friend  %>%
+  group_by(symbol) %>%
+tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "daily",
+               type = "log")
+  
+```
+
+```{r, include=FALSE}
+return2.group <-return2 %>% 
+  group_by(symbol) %>% 
+  summarise(average_daily_return =mean(daily.returns))  
+
+```
+
+```{r, include=FALSE}
+port1 <- return1 %>%
+  tq_portfolio(assets_col=symbol,
+               returns_col=daily.returns,
+               weights = tibble(asset.names = c("GOOG", "NFLX", "MSFT"),
+                                weight = c(0.2,0.5,0.3)),
+               wealth.index = T)
+```
+
+```{r, include=FALSE}
+port2 <- return2 %>%
+  tq_portfolio(assets_col=symbol,
+               returns_col=daily.returns,
+               weights = tibble(asset.names = c("AMZN", "META", "JPM"),
+                                weight = c(0.5,0.3,0.2)),
+               wealth.index = T)
+```
+
+
+
+```{r}
+
+ p2<- ggplot()+
+    geom_line(port1, mapping = aes(x = date, y = portfolio.wealthindex), color= "firebrick")+ 
+    geom_line(port2, mapping = aes(x = date, y = portfolio.wealthindex), color= "blue") +
+  geom_point()+
+  labs(y= "Index", title = "Index Growth over Time by Portafolio")+
+  theme_economist() 
+ 
+
+p2
+
+```
+
+
+
+
+Paragraph <br />
+The first two graphs show how each person's stocks choices performed. For me the Netflix stock is helping the competition, and Meta is helping my friend. The last plot shows the indexes. Since we bot started investing the same amount of money both my line (red) and my friends(blue) start at the same point. Then each line separates as the indexes change.  
